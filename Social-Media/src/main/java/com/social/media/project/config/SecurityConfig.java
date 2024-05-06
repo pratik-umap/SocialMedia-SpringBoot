@@ -1,5 +1,6 @@
 package com.social.media.project.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +32,17 @@ public class SecurityConfig {
 	@Autowired
 	JwtAuthenticationFilter jwtAuthenticationFilter;
 
+	public static final String[] swaggerList= {"/swagger-ui/**","/v3/api-docs/**","/swagger-resources/**","/swagger-resources"};
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
+	@Bean
+	public ModelMapper mapper() {
+		return new ModelMapper();
+	}
 	// used for in memory user save
 //	@Bean
 //	public UserDetailsService userDetailsService() {
@@ -69,7 +76,10 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf((csrf) -> csrf.disable()).cors((cors) -> cors.disable())
-				.authorizeRequests((req) -> req.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
+				.authorizeRequests((req) -> 
+				req.requestMatchers("/auth/**").permitAll()
+				  .requestMatchers(swaggerList).permitAll()
+				.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
