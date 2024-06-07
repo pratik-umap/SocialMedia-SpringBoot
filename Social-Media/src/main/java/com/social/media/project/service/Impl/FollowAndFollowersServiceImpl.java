@@ -46,17 +46,27 @@ public class FollowAndFollowersServiceImpl implements FollowAndFollowersService{
 	}
 
 	@Override
-	public int getFollowingCntOfUser(String username) throws CustomException {
-		UserEntity user = userRepository.findByUsername(username);        
+	public int getFollowingCntOfUser(UserEntity user) throws CustomException {
+//		UserEntity user = userRepository.findByUsername(username);        
 		int findFollowingAndFollowersByUser = followAndFollowersRepository.findFollowingandfollowersByUser(user.getId());
 		return findFollowingAndFollowersByUser;
 	}
 
 	@Override
-	public int getFollowersCntOfUser(String username) throws CustomException {
-		UserEntity user = userRepository.findByUsername(username);        
+	public int getFollowersCntOfUser(UserEntity user) throws CustomException {
+//		UserEntity user = userRepository.findByUsername(username);        
 		int findFollowingAndFollowersByUser = followAndFollowersRepository.findFollowingandfollowersByFollowuser(user.getId());
 		return findFollowingAndFollowersByUser;
+	}
+
+	@Override
+	public boolean followUserExist(String name, int id) {
+		UserEntity user = userRepository.findByUsername(name);
+		FollowingAndFollowers User = followAndFollowersRepository.findByUserAndFollowuser(user.getId(), id);
+		if (User != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

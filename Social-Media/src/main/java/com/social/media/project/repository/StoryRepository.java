@@ -14,6 +14,8 @@ public interface StoryRepository extends JpaRepository<Story, Integer>{
 			+ "join t_user_following_followers fo\n"
 			+ "on st.fk_user_id=fo.fk_following_user_id\n"
 			+ "where fo.fk_user_id=?1 ",nativeQuery = true)
-	List<StoryPojo>findStoryByUser(int user);
+	List<StoryPojo> findStoryByUser(int user);
+	
+	List<Story> findByUser(int user);
 	
 }

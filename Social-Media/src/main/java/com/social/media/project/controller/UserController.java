@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,12 @@ public class UserController {
 		UserEntity userCreated = userService.createUser(user);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<UserDto>> getAllUser(){
+		List<UserDto> allUser = userService.getAllUser();
+		return ResponseEntity.status(HttpStatus.OK).body(allUser);
 	}
 	
 	@GetMapping("/{id}")

@@ -7,9 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.social.media.project.entity.UserEntity;
 import com.social.media.project.exception.CustomException;
+import com.social.media.project.repository.UserRepository;
 import com.social.media.project.service.FollowAndFollowersService;
 
 @RestController
@@ -18,6 +21,9 @@ public class FollowAndFollowersController {
 
 	@Autowired
 	private FollowAndFollowersService followAndFollowersService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@GetMapping("/follow/{followUserId}")
 	public ResponseEntity<String> followUser(@PathVariable int followUserId) throws CustomException{
@@ -33,17 +39,36 @@ public class FollowAndFollowersController {
 		 return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
 	
+	@GetMapping("/follow-user")
+	public ResponseEntity<Boolean> followUserExist(@RequestParam int id){
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		boolean val = followAndFollowersService.followUserExist(name,id);
+		return ResponseEntity.status(HttpStatus.OK).body(val);
+	}
+	
 	@GetMapping("/user/following-cnt")
-	public ResponseEntity<Integer> getFollowingCntOfUser() throws CustomException{
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		int cnt = followAndFollowersService.getFollowingCntOfUser(username);
+	public ResponseEntity<Integer> getFollowingCntOfUser(@RequestParam(defaultValue = "0") int id) throws CustomException{
+		UserEntity user =  null;
+		if (id!=0) {
+			 user = userRepository.findById(id).get();
+		} else {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			 user = userRepository.findByUsername(username);
+		}
+		int cnt = followAndFollowersService.getFollowingCntOfUser(user);
 		 return ResponseEntity.status(HttpStatus.OK).body(cnt);
 	}
 	
 	@GetMapping("/user/followers-cnt")
-	public ResponseEntity<Integer> getFollowersCntOfUser() throws CustomException{
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		int cnt = followAndFollowersService.getFollowersCntOfUser(username);
+	public ResponseEntity<Integer> getFollowersCntOfUser(@RequestParam(defaultValue = "0") int id) throws CustomException{
+		UserEntity user = null;
+		if (id != 0) {
+			user = userRepository.findById(id).get();
+		} else {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			user = userRepository.findByUsername(username);
+		}
+		int cnt = followAndFollowersService.getFollowersCntOfUser(user);
 		 return ResponseEntity.status(HttpStatus.OK).body(cnt);
 	}
 }

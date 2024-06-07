@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.social.media.project.entity.Post;
+import com.social.media.project.entity.UserEntity;
 import com.social.media.project.exception.CustomException;
 import com.social.media.project.payload.PostDto;
 
@@ -17,10 +18,10 @@ public interface PostService {
 
 	String deletePost(int id) throws CustomException;
 
-	List<PostDto> getAllPostOfUser(String username) throws CustomException;
+	List<PostDto> getAllPostOfUser(UserEntity user) throws CustomException;
 	
 	List<PostDto> getAllPostOfFollwing(String username) throws CustomException;
 
-	int getPostCntOfUser(String username) throws CustomException;
+	int getPostCntOfUser(UserEntity user) throws CustomException;
 
 }

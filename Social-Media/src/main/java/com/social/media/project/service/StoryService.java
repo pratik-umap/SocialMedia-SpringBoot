@@ -17,4 +17,6 @@ public interface StoryService{
 
 	Story getStoryById(int id) throws CustomException;
 
+	List<StoryDto> getMyStory(String username);
+
 }

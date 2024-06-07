@@ -110,8 +110,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<PostDto> getAllPostOfUser(String username) throws CustomException {
-	UserEntity user = userRepository.findByUsername(username);
+	public List<PostDto> getAllPostOfUser(UserEntity user) throws CustomException {
 	
       List<Post> postpojo = postRepository.findByUser(user);
 		List<PostDto> posts= new ArrayList<PostDto>();
@@ -127,6 +126,26 @@ public class PostServiceImpl implements PostService{
 			post.setImage_path(generatePresignedUrl.toString());
 			post.setLocation(postpojo.get(i).getLocation());
 			post.setDescription(postpojo.get(i).getDescription());
+			
+			List<Like> likes = likeRepository.findByPost(post.getId());
+			List<UserDto> collect = likes.stream().map((like)-> {
+				UserEntity userEntity = userRepository.findById(like.getUser()).get();
+				UserDto user1 = mapper.map(userEntity, UserDto.class);
+				return user1;
+			}).collect(Collectors.toList());
+			post.setLikes(collect);
+			
+			List<Comment> allCommentOfPost = commentService.getAllCommentOfPost(post.getId());
+			List<CommentDto> collect2 = allCommentOfPost.stream().map((comment)->{
+				CommentDto commentDto = new CommentDto();
+				commentDto.setId(comment.getId());
+				commentDto.setDescription(comment.getDescription());
+				UserDto user1 = mapper.map(comment.getUser(), UserDto.class);
+				commentDto.setUser(user1);
+				return commentDto;
+			}).collect(Collectors.toList());
+			post.setComments(collect2);
+			
 			posts.add(post);
 		}
 		
@@ -174,8 +193,8 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public int getPostCntOfUser(String username) throws CustomException {
-		UserEntity user = userRepository.findByUsername(username);
+	public int getPostCntOfUser(UserEntity user) throws CustomException {
+//		UserEntity user = userRepository.findByUsername(username);
 
 		int findPostByUser = postRepository.findPostByUser(user.getId());
 		return findPostByUser;

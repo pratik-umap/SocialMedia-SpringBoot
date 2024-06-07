@@ -53,5 +53,12 @@ public class StoryController {
     	List<StoryDto> allStory = storyService.getAllStoryOfFollowingUser(username);
         return ResponseEntity.status(HttpStatus.OK).body(allStory);
     }
+    
+    @GetMapping("/mystory")
+    public ResponseEntity<List<StoryDto>> getMyStory(){
+    	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    	List<StoryDto> allStory = storyService.getMyStory(username);
+    	return ResponseEntity.status(HttpStatus.OK).body(allStory);
+    }
 }  
 

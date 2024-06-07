@@ -1,5 +1,6 @@
  package com.social.media.project.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.social.media.project.entity.UserEntity;
 import com.social.media.project.payload.JwtRequest;
+import com.social.media.project.payload.UserDto;
 import com.social.media.project.repository.UserRepository;
 import com.social.media.project.security.JwtHelper;
 import com.social.media.project.service.UserService;
@@ -44,6 +46,9 @@ public class AuthController {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody UserEntity user){
 		 UserEntity findByUsername = userRepository.findByUsername(user.getUsername());
@@ -57,13 +62,17 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody JwtRequest request){
+	public ResponseEntity<UserDto> login(@RequestBody JwtRequest request){
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword());
 	    authenticationManager.authenticate(authenticationToken);
 	    
 	    UserDetails userDetails = userDetailService.loadUserByUsername(request.getUsername());
 	    String token = jwtHelper.generateToken(userDetails);
-	    return ResponseEntity.status(HttpStatus.OK).body(token);
+	    
+		 UserEntity findByUsername = userRepository.findByUsername(request.getUsername());
+		 UserDto user = mapper.map(findByUsername, UserDto.class);
+		 user.setToken(token);
+	    return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 	
 	@GetMapping("/logout")

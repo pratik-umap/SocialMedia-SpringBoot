@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.social.media.project.entity.Post;
+import com.social.media.project.entity.UserEntity;
 import com.social.media.project.exception.CustomException;
 import com.social.media.project.payload.PostDto;
+import com.social.media.project.repository.UserRepository;
 import com.social.media.project.service.PostService;
 
 @RestController
@@ -27,6 +30,9 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@PostMapping
 	public ResponseEntity<Post> createPost(@ModelAttribute Post post) throws CustomException, IOException{
@@ -42,9 +48,15 @@ public class PostController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<List<PostDto>> getAllPostOfUser() throws CustomException{
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		List<PostDto> allPost = postService.getAllPostOfUser(username);
+	public ResponseEntity<List<PostDto>> getAllPostOfUser(@RequestParam(defaultValue = "0") int id) throws CustomException{
+		UserEntity user =  null;
+		if (id!=0) {
+			 user = userRepository.findById(id).get();
+		} else {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			 user = userRepository.findByUsername(username);
+		}
+		List<PostDto> allPost = postService.getAllPostOfUser(user);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(allPost);
 	}
@@ -69,9 +81,15 @@ public class PostController {
 	}
 	
 	@GetMapping("/post-cnt")
-	public ResponseEntity<Integer> getAllPostCountOfUser() throws CustomException{
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		int cnt = postService.getPostCntOfUser(username);
+	public ResponseEntity<Integer> getAllPostCountOfUser(@RequestParam(defaultValue = "0") int id) throws CustomException{
+		UserEntity user = null;
+		if (id != 0) {
+			user = userRepository.findById(id).get();
+		} else {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			user = (UserEntity) userRepository.findByUsername(username);
+		}
+		int cnt = postService.getPostCntOfUser(user);
 		return ResponseEntity.status(HttpStatus.OK).body(cnt);
 	}
 }

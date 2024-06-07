@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService{
 		user.setCreatedAt(new Date());
 		user.setPassword(encoder.encode(user.getPassword()));
 		UserEntity save = userRepository.save(user);
-		
 		return save;
 	}
 
@@ -74,6 +73,13 @@ public class UserServiceImpl implements UserService{
 		List<UserEntity> users = userRepository.findByUsernameContaining(search);
 		List<UserDto> collect = users.stream().map((user)-> mapper.map(user, UserDto.class)).collect(Collectors.toList());
 		return collect;
+	}
+
+	@Override
+	public List<UserDto> getAllUser() {
+		  List<UserEntity> findAll = userRepository.findAll();
+		  	List<UserDto> collect = findAll.stream().map((user)-> mapper.map(user, UserDto.class)).collect(Collectors.toList());
+		  	return collect;
 	}
 	
 	

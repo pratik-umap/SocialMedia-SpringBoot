@@ -67,7 +67,7 @@ public class CommentServiceImpl implements CommentService{
 		UserEntity user = userRepository.findByUsername(username);
 		Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new CustomException("comment not found"));
       
-		if (comment.getPost().getUser().getId()== user.getId() && comment.getUser().getId()==user.getId()) {
+		if (comment.getPost().getUser().getId()== user.getId() || comment.getUser().getId()==user.getId()) {
 			commentRepository.delete(comment);
 		}else throw new CustomException("you can't delete this comment");
 		return "comment deleted successfully";

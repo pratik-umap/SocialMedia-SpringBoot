@@ -103,6 +103,25 @@ public class StoryServiceImpl implements StoryService{
 		story.setGenaratedPreSignedUrl(generatePresignedUrl.toString());
 		return story;
 	}
+
+	@Override
+	public List<StoryDto> getMyStory(String username) {
+		UserEntity user = userRepository.findByUsername(username);
+		List<Story> list = storyRepository.findByUser(user.getId());
+		Date date= new Date();
+		long exp = date.getTime() + 2 * 60 * 60 * 1000;
+		date.setTime(exp);
+	     List<StoryDto> collect = list.stream().map((s)->{
+	    	 StoryDto storyDto = new StoryDto();
+	    	 storyDto.setId((long)s.getId());
+			URL generatePresignedUrl = amazonS3.generatePresignedUrl(bucketName,s.getImage_path() , date, HttpMethod.GET);
+	    	 storyDto.setImage(generatePresignedUrl.toString());
+	    	 storyDto.setUser(mapper.map(user, UserDto.class));
+	    	 return storyDto;
+	     }).collect(Collectors.toList());
+		 
+		return collect;
+	}
 	
 	
 

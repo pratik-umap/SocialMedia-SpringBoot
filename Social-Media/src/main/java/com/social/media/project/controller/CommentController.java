@@ -28,11 +28,13 @@ public class CommentController {
 	private CommentService commentService;
 	
 	@PostMapping
-	public ResponseEntity<Comment> createComment(@RequestBody Comment comment,@RequestParam int postId) throws CustomException{
+	public ResponseEntity<String> createComment(@RequestBody Comment comment,@RequestParam int postId) throws CustomException{
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Comment save = commentService.createComment(comment,username,postId);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(save);
+		if (save != null) {	
+			return ResponseEntity.status(HttpStatus.OK).body("comment added successfully");
+		}
+		return null;
 	}
 	
 	@GetMapping("/post/{postId}")

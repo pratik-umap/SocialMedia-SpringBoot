@@ -18,4 +18,6 @@ public interface UserService {
 
 	List<UserDto> searchUser(String search);
 
+	List<UserDto> getAllUser();
+
 }
