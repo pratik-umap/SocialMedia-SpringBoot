@@ -1,0 +1,291 @@
+.navbar{
+    height: 70px;
+    width: 100%;
+    background-color: rgb(49, 48, 48);
+}
+.navbar > ul{
+    height: inherit;
+    color: white;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style-type: none;
+}
+
+.home{
+    /* background: rgb(110, 108, 108); */
+    height: 89.3vh;
+    display: flex;
+}
+
+.home-left{
+    /* background: yellow; */
+    height: inherit;
+    overflow-y: scroll;
+    height: inherit;
+    width: 75%;
+}
+
+.home-right{
+    border-left: 1px solid rgb(128, 113, 113);
+    /* background: red; */
+    height: inherit;
+    width: 25%;
+}
+
+.post{
+    height: 300px;
+    width: 250px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 25px 20px;
+}
+
+.userProfile{
+    height: 55px;
+    /* background-color: rebeccapurple; */
+    display: flex;
+    align-items: center;
+}
+
+.userPicture{
+ width: 50px;
+ height: 50px;
+ border-radius: 50%;
+ padding:  0 14px;
+ /* border:2px solid rgb(155, 77, 110); */
+}
+
+.userInfo{
+  font-size: 15px;
+  font-weight: 100;
+  color: #5f5c5c;
+}
+.userInfo > h5:nth-child(1){
+    margin: 5px 0;
+}
+
+.postImg{
+    height: 190px;
+    /* background: red; */
+}
+
+.postImage{
+  height: inherit;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+}
+.icons{
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+.btn{
+   margin: 8px 8px 0;
+}
+
+.dialogbox{
+  min-width: 500px;
+  height: 100vh;
+  padding: 2vmax;
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    /* background: rebeccapurple; */
+}
+
+.form > input{
+    padding: 10px 50px;
+}
+
+.form > button{
+    padding: 10px 30px;
+    margin-left: 20px;
+    border: none;
+    color: white;
+    background: rgb(75, 110, 185);
+}
+
+.userList{
+    min-width: 250px;
+    height: 60px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+.postForm{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.postForm > form{
+    width: 60%;
+    height: 60vh;
+    padding-top: 40px;
+    border-radius: 15px;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    line-height: 50px;
+}
+
+.description,#location,#image{
+  width: 250px;
+  height: 30px;
+  outline: none;
+}
+
+.postBtn{
+    padding: 8px 20px;
+    border-radius: 5px;
+    background: rgb(139, 135, 135);
+    color: white;
+    border: none;
+    margin-top: 20px;
+}
+
+.searchContainer{
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.search{
+    width: 60%;
+    height: 50vh;
+    margin-top: 20px;
+    /* background: yellow; */
+    display: flex;
+    justify-content: center;
+}
+.searchUser{
+    margin-top: -20%;
+}
+.search >  form > input{
+    height: 30px;
+    width: 250px;
+    text-indent: 2px;
+    outline: none;
+}
+
+.search >  form > button{
+   padding: 11px 15px;
+   border-radius: 4px;
+   border: none;
+}
+.account{
+    width: 100%;
+    height: 89.3vh;
+    display: flex;
+    /* background: red; */
+}
+.account-left{
+   width: 75%;
+   height: inherit;
+   /* background: yellow; */
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.postInfo{
+    height:30vh;
+    width: 60%;
+    /* background: blue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 30px;
+}
+
+.accountPicture{
+    width: 100px;
+    height: 100px;
+    margin-right: 25px;
+    border-radius: 50%;
+}
+.allPost{
+    width: 100%;
+    /* background: rebeccapurple; */
+    margin:  0 10px;
+}
+
+.account-right{
+    width: 25%;
+    border-left: 1px solid black;
+    /* background-color: red; */
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 10px 0;
+   line-height: 30px;
+}
+
+.loginform{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login{
+    width: 100%;
+    height: 50vh;
+    line-height: 60px;
+}
+.storyContainer{
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.story{
+    width: 60%;
+    height: 30vh;
+    padding-top: 40px;
+    border-radius: 15px;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.story > input {
+    padding: 7px 0;
+}
+
+.stories{
+    height: 100px;
+    width: 100%;
+    background-color: #e2eaed;
+    display: flex;
+}
+
+.storyImage{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.storyBox{
+    width: auto;
+    height: inherit;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
