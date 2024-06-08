@@ -9,16 +9,14 @@ function App() {
    const {isAuthenticated} = useSelector((state)=> state.user)
   return (
     <div className="App">
-     <Header /> 
-     <Outlet />
-      {/* {
+     {
         isAuthenticated ? 
         <>
           <Header /> 
           <Outlet />
         </> 
         : <Login />
-      } */}
+      } 
     </div>
   );
 }
